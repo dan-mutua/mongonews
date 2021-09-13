@@ -11,5 +11,7 @@
 <div>
   <h1 class="text-center">News Headlines</h1>
 </div>
-  {{macro.displayArticlesList(articles)}}
+{% for article in articles%}
+ <li> {{article.description}} </li>
+ {% endfor %}
 {%endblock%}

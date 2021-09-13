@@ -1,5 +1,5 @@
 import urllib.request,json
-from models import Source,Article
+from .models import Source,Article
 
 #Getting apiKey
 
@@ -57,35 +57,34 @@ def process_results(source_list):
 
     return source_results
 
-##def get_articles(id):
+def get_articles(id):
     '''Function thet gets the json response to our url request'''
-    # get_articles_url = article_base_url.format(id,apiKey)
+    get_articles_url = 'https://newsapi.org/v2/everything?sources={}&apiKey=3e00bee67dfd4c239e7770a7ebc507ad'.format(id)
+    with urllib.request.urlopen(get_articles_url) as url:
+          get_articles_data = url.read()
+          get_articles_response = json.loads(get_articles_data)
 
-#     with urllib.request.urlopen(get_articles_url) as url:
-#         get_articles_data = url.read()
-#         get_articles_response = json.loads(get_articles_data)
+          article_results = None
 
-#         article_results = None
+          if get_articles_response['articles']:
+              article_results_list = get_articles_response['articles']
+              article_results = process_articles(article_results_list)
 
-#         if get_articles_response['articles']:
-#             article_results_list = get_articles_response['articles']
-#             article_results = process_articles(article_results_list)
+    return article_results
 
-#     return article_results
+def process_articles(article_list):
+    article_results = []
+    for article_item in article_list:
+        author= article_item.get('author')
+        title = article_item.get('title')
+        description = article_item.get('description')
+        url = article_item.get('url')
+        urlToImage = article_item.get('urlToImage')
+        publishedAt = article_item.get('publishedAt')
+        content = article_item.get('content')
 
-# def process_articles(article_list):
-#     article_results = []
-#     for article_item in article_list:
-#         id = article_item.get('id')
-#         title = article_item.get('title')
-#         description = article_item.get('description')
-#         url = article_item.get('url')
-#         urlToImage = article_item.get('urlToImage')
-#         publishedAt = article_item.get('publishedAt')
-#         content = article_item.get('content')
+        if urlToImage:
+            article_object = Article(author,title,description,url,urlToImage,publishedAt,content)
+            article_results.append(article_object)
 
-#         if urlToImage:
-#             article_object = Article(id,title,description,url,urlToImage,publishedAt,content)
-#             article_results.append(article_object)
-
-#     return article_results
+    return article_results
