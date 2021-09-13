@@ -1,0 +1,20 @@
+{% extends "base.html"%}
+
+{%import 'macros.html' as macro%}
+
+{% block styles%}
+
+ <!-- <h2>test</h2> -->
+ {% endblock %}
+
+ {% block content%}
+     <div>
+       <h3> Mongonews</h3>
+     </div>
+     <ul>
+       {{macro.displaySourcesList(sources) }}
+     </ul>
+    
+  
+  {% endblock%}
+ 
