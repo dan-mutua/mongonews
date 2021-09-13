@@ -13,6 +13,7 @@
 </div>
 {% for article in articles%}
  <li> {{article.description}} </li>
- <li> {{article.urlToImage}} </li>
+ <img src='{{article.urlToImage}}'>
+ <li> {{article.publishedAt}} </li>
  {% endfor %}
 {%endblock%}
